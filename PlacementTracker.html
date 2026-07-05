@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Placement Tracker</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:orange;
+            padding:30px;
+			
+        }
+
+        .container{
+            max-width:1200px;
+            margin:auto;
+        }
+
+        .header{
+            background:white;
+            padding:20px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom:20px;
+        }
+
+        .header h1{
+            color:#333;
+        }
+
+        .dashboard{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:15px;
+            margin-bottom:20px;
+			color:black;
+        }
+
+        .card{
+            background:silver;
+            padding:20px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+
+        .card h2{
+            font-size:28px;
+            margin-top:10px;
+        }
+
+        .section{
+            background:white;
+            padding:20px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom:20px;
+        }
+
+        .form-group{
+            margin-bottom:15px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:5px;
+            font-weight:bold;
+        }
+
+        input,
+        select,
+        textarea{
+            width:100%;
+            padding:10px;
+            border:1px solid #ccc;
+            border-radius:8px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:8px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            opacity:0.9;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th,td{
+            padding:12px;
+            text-align:left;
+            border-bottom:1px solid #ddd;
+        }
+
+        th{
+            background:#f1f5f9;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>📈 Placement Tracker Dashboard</h1>
+        <p>Track all internship and placement applications.</p>
+    </div>
+
+    <div class="dashboard">
+
+<div class="card">
+    <h3>Total Applications</h3>
+    <h2 id="totalApplications">0</h2>
+</div>
+
+<div class="card">
+    <h3>Interviews</h3>
+    <h2 id="interviewCount">0</h2>
+</div>
+
+<div class="card">
+    <h3>Selected</h3>
+    <h2 id="selectedCount">0</h2>
+</div>
+
+<div class="card">
+    <h3>Rejected</h3>
+    <h2 id="rejectedCount">0</h2>
+</div>
+
+    </div>
+
+    <div class="section">
+
+        <h2>Student Profile</h2>
+
+        <br>
+
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="studentName">
+        </div>
+
+        <div class="form-group">
+            <label>Institution</label>
+            <input type="text">
+        </div>
+
+        <div class="form-group">
+            <label>Department</label>
+            <input type="text">
+        </div>
+
+        <div class="form-group">
+            <label>CGPA</label>
+            <input type="number" id="cgpa">
+            
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <h2>Add Application</h2>
+
+        <br>
+
+        <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" id="company">
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <input type="text" id="role">
+
+        </div>
+        
+		<div class="form-group">
+		    <label>Company Type</label>
+		    
+		    <select>
+		        <option>Product Company</option>
+		        <option>Service Company</option>
+		        <option>FinTech</option>
+		        <option>Startup</option>
+		        <option>MNC</option>
+		        <option>AI/ML</option>
+		        <option>Gaming</option>
+		        <option>Consulting</option>
+		    </select>
+	    </div>
+		
+		
+
+        <div class="form-group">
+            <label>Date Applied</label>
+            <input type="date" id="date">
+        </div>
+
+        <div class="form-group">
+            <label>Package (LPA)</label>
+            <input type="text">
+        </div>
+
+        <div class="form-group">
+            <label>Job Link</label>
+            <input type="text">
+        </div>
+
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea rows="4"></textarea>
+        </div>
+
+ <button onclick="addApplication()">
+        Add Application </button>
+
+    </div>
+
+    <div class="section">
+
+        <h2>Applications</h2>
+
+        <br>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Date</th>
+            <th>CGPA</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody id="applicationTable">
+
+    </tbody>
+</table>
+
+    </div>
+
+</div>
+
+<script>
+
+async function addApplication() {
+
+    const name = document.getElementById("studentName").value;
+    const company = document.getElementById("company").value;
+    const role = document.getElementById("role").value;
+    const date = document.getElementById("date").value;
+    const cgpa = document.getElementById("cgpa").value;
+    
+
+    const application = {
+        name: name,
+        company: company,
+        role: role,
+        date_applied: date,
+        cgpa: Number(cgpa),
+    };
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/applications", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(application)
+
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to add application");
+        }
+
+        const result = await response.json();
+
+        console.log(result);
+
+        alert("Application Added Successfully!");
+
+        document.getElementById("studentName").value = "";
+        document.getElementById("company").value = "";
+        document.getElementById("role").value = "";
+        document.getElementById("date").value = "";
+        document.getElementById("cgpa").value = "";
+
+        getFastapi();
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+async function getFastapi() {
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/applications");
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch");
+        }
+
+        const data = await response.json();
+
+        const table = document.getElementById("applicationTable");
+
+        table.innerHTML = "";
+
+        document.getElementById("totalApplications").textContent = data.length;
+
+        let interview = 0;
+        let selected = 0;
+        let rejected = 0;
+
+        data.forEach(app => {
+
+            if (app.status === "Interview") {
+                interview++;
+            }
+
+            if (app.status === "Selected") {
+                selected++;
+            }
+
+            if (app.status === "Rejected") {
+                rejected++;
+            }
+
+            table.innerHTML += `
+            <tr>
+                <td>${app.name}</td>
+                <td>${app.company}</td>
+                <td>${app.role}</td>
+                <td>${app.date_applied}</td>
+                <td>${app.cgpa}</td>
+                <td>${app.status}</td>
+            </tr>
+            `;
+
+        });
+
+        document.getElementById("interviewCount").textContent = interview;
+        document.getElementById("selectedCount").textContent = selected;
+        document.getElementById("rejectedCount").textContent = rejected;
+
+    }
+    catch (error) {
+
+        console.error("Connection failed:", error);
+
+    }
+
+}
+
+window.onload = function () {
+
+    getFastapi();
+
+}
+
+</script>
+
+</body>
+</html>
