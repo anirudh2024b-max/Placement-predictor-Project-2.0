@@ -1,5 +1,5 @@
-# Placement-Tracker-Project
-This is a simple placement tracker fullstack project made using FastAPI (Python template) as the backbone component.
+# Placement-Predictor-Project
+This is a simple placement predictor fullstack project made using FastAPI (Python template) as the backbone component.
 
 ## Features
 - Add placement applications
