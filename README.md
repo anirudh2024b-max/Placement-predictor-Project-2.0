@@ -33,3 +33,7 @@ Open PlacementTracker.html using Live Server.
 Website link for the second version is given below.
 
 http://127.0.0.1:5500/static/PlacementTracker.html
+
+or else try this :-
+
+https://cheerful-begonia-55771a.netlify.app/
